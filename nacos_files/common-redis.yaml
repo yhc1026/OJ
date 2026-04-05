@@ -1,0 +1,20 @@
+# =============================================================================
+# Data ID: common-redis.yaml
+# Group: DEFAULT_GROUP
+# 说明: Redis（oj-system 登录态 login_tokens:* 等）
+# 可与 oj-gateway 本地 redis 配置保持一致，便于连同一实例
+# =============================================================================
+spring:
+  data:
+    redis:
+      host: ${REDIS_HOST:127.0.0.1}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:123456}
+      database: ${REDIS_DATABASE:0}
+      timeout: 3000ms
+      lettuce:
+        pool:
+          max-active: 8
+          max-idle: 8
+          min-idle: 0
+          max-wait: -1ms

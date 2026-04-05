@@ -1,0 +1,36 @@
+# oj-job 启动配置（本地 + Nacos）
+# 须在 Nacos 创建与下面 data-id 一致的配置，并粘贴 nacos_files/ 下对应文件内容。
+#
+# MySQL / Redis：shared-configs → common-datasource.yaml、common-redis.yaml
+# MP + XXL-JOB：extension-configs → oj-job.yml（与 Nacos Data ID 保持一致）
+
+server:
+  port: ${SERVER_PORT:9203}
+
+spring:
+  application:
+    name: oj-job
+  cloud:
+    nacos:
+      config:
+        server-addr: ${NACOS_SERVER:127.0.0.1:8848}
+        group: ${NACOS_CONFIG_GROUP:DEFAULT_GROUP}
+        # 使用非 public 命名空间时取消注释并设置 NACOS_NAMESPACE
+        # namespace: ${NACOS_NAMESPACE}
+        file-extension: yml
+        shared-configs:
+          - data-id: common-datasource.yaml
+            group: DEFAULT_GROUP
+            refresh: true
+          - data-id: common-redis.yaml
+            group: DEFAULT_GROUP
+            refresh: true
+          - data-id: common-oss.yaml
+            group: DEFAULT_GROUP
+            refresh: true
+        extension-configs:
+          - data-id: oj-job.yml
+            group: DEFAULT_GROUP
+            refresh: true
+      discovery:
+        server-addr: ${NACOS_SERVER:127.0.0.1:8848}

@@ -1,0 +1,9 @@
+server:
+  # 当前微服务监听端口
+  port: 9202
+
+spring:
+  application:
+    # 应用名称：未来接入注册中心/配置中心时用作服务标识
+    name: oj-judge
+

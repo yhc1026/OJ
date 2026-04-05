@@ -1,0 +1,5 @@
+<dependency>
+     <groupId>com.bite</groupId>
+     <artifactId>oj-common-swagger</artifactId>
+     <version>${oj.common.swagger.version}</version>
+</dependency>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  微服务聚合模块（oj-modules）
+  - 只负责把所有业务微服务作为子模块统一管理
+  - 这里声明的依赖会被子模块继承（示例：spring-boot-starter-web）
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <parent>
+    <artifactId>bite-oj</artifactId>
+    <groupId>com.bite</groupId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>oj-modules</artifactId>
+  <packaging>pom</packaging>
+
+  <modules>
+    <!-- 系统/权限等基础服务（示例微服务） -->
+    <module>oj-system</module>
+    <!-- 判题服务（示例微服务） -->
+    <module>oj-judge</module>
+    <!-- 定时/任务服务（示例微服务） -->
+    <module>oj-job</module>
+    <!-- 社交/好友等服务（示例微服务） -->
+    <module>oj-friend</module>
+  </modules>
+
+  <properties>
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
+  </properties>
+
+  <dependencies>
+    <!--
+      作为示例：所有微服务默认提供 HTTP API（Spring MVC）。
+      后续如需区分（有些服务不对外暴露 Web 接口），可下沉到各子模块自行声明。
+    -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.bite</groupId>
+      <artifactId>oj-common-core</artifactId>
+      <version>1.0-SNAPSHOT</version>
+      <scope>compile</scope>
+    </dependency>
+    <!-- 全局异常处理（统一返回 Result） -->
+    <dependency>
+      <groupId>com.bite</groupId>
+      <artifactId>oj-common-security</artifactId>
+      <version>1.0-SNAPSHOT</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.alibaba.cloud</groupId>
+      <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.alibaba.cloud</groupId>
+      <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+    </dependency>
+    <!--
+      与 MyBatis-Plus 3.5.3.x 分页插件（PaginationInnerInterceptor）兼容。
+      4.6+ 起 API 变更，4.7 会缺 net.sf.jsqlparser.statement.select.SelectExpressionItem 导致启动失败。
+    -->
+    <dependency>
+      <groupId>com.github.jsqlparser</groupId>
+      <artifactId>jsqlparser</artifactId>
+      <version>4.4</version>
+    </dependency>
+  </dependencies>
+</project>
+

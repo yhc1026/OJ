@@ -1,0 +1,49 @@
+# ============================================================
+# 本地 bootstrap：oj-gateway 启动默认配置
+# 实际运行时由 Nacos 动态覆盖（路由/白名单/JWT 等见 nacos_files/oj-gateway.yml）
+# ============================================================
+server:
+  port: 9000
+
+spring:
+  application:
+    name: oj-gateway
+
+  # 从 Nacos 拉取共享配置
+  config:
+    import:
+      # Redis（与 oj-system 共用）
+      - optional:nacos:common-redis.yaml?group=DEFAULT_GROUP
+      # 网关专属配置（路由 + 白名单 + JWT）
+      - optional:nacos:oj-gateway.yml?group=DEFAULT_GROUP
+
+  cloud:
+    nacos:
+      config:
+        server-addr: ${NACOS_SERVER_ADDR:127.0.0.1:8848}
+        group: ${NACOS_GROUP:DEFAULT_GROUP}
+        namespace: ${NACOS_NAMESPACE:}
+        prefix: ${spring.application.name}
+        file-extension: yml
+      discovery:
+        server-addr: ${NACOS_SERVER_ADDR:127.0.0.1:8848}
+        group: ${NACOS_GROUP:DEFAULT_GROUP}
+        namespace: ${NACOS_NAMESPACE:}
+
+  # Redis 本地兜底（Nacos 未发布 common-redis.yaml 时使用）
+  data:
+    redis:
+      host: ${REDIS_HOST:127.0.0.1}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:123456}
+      database: ${REDIS_DATABASE:0}
+      timeout: 3000ms
+
+# JWT / Token 默认值（生产通过环境变量覆盖）
+security:
+  jwt:
+    secret: ${JWT_SECRET:oj-jwt-secret-key-please-change-2026}
+    expire-seconds: ${JWT_EXPIRE_SECONDS:604800}
+  token:
+    ttl-seconds: ${TOKEN_TTL_SECONDS:43200}
+    refresh-threshold-seconds: ${TOKEN_REFRESH_THRESHOLD_SECONDS:20}

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OJ · 头像管理</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/user.css" />
+</head>
+<body class="user-body">
+  <div class="page-bg user-page-bg" aria-hidden="true"></div>
+
+  <header class="user-header">
+    <div class="user-brand">
+      <a href="user-dashboard.html" class="user-back">← 仪表盘</a>
+      <div class="brand-mark user-mark">OJ</div>
+      <div>
+        <h1 class="user-product">头像管理</h1>
+        <span class="user-badge-preview" id="page-badge">上传与查看</span>
+      </div>
+    </div>
+    <div class="user-header-actions">
+      <span class="user-session-pill" id="session-label">…</span>
+      <a href="user-login.html" class="btn btn-sm btn-secondary" id="link-login">去登录</a>
+      <button type="button" class="btn btn-user-primary btn-sm hidden" id="btn-logout">退出</button>
+    </div>
+  </header>
+
+  <main class="user-main">
+    <!-- 未登录提示 -->
+    <div id="state-unauth" class="user-panel card-elevated hidden">
+      <div class="unauth-box">
+        <p class="unauth-icon">🔒</p>
+        <h2 class="unauth-title">请先登录</h2>
+        <p class="hint">头像管理需要登录后访问</p>
+        <a href="user-login.html" class="btn btn-user-primary">去登录</a>
+      </div>
+    </div>
+
+    <!-- 头像内容 -->
+    <div id="state-content">
+      <!-- 当前头像预览 -->
+      <section class="user-panel card-elevated" id="panel-preview">
+        <h3 class="user-panel-title">当前头像</h3>
+        <div class="avatar-preview-area">
+          <div id="avatar-placeholder" class="avatar-placeholder">
+            <span class="avatar-placeholder-icon">👤</span>
+            <span class="avatar-placeholder-text">暂无头像</span>
+          </div>
+          <div id="avatar-img-wrap" class="avatar-img-wrap hidden">
+            <img id="avatar-display" class="avatar-display" alt="当前头像" />
+          </div>
+          <div class="avatar-meta-info hidden" id="avatar-meta">
+            <p><strong>objectKey:</strong> <code id="meta-key">-</code></p>
+            <p><strong>URL:</strong> <a id="meta-url" href="#" target="_blank" rel="noopener noreferrer">打开图片</a></p>
+          </div>
+        </div>
+        <div class="user-btn-row">
+          <button type="button" class="btn btn-sm btn-secondary" id="btn-load-avatar">查看当前头像</button>
+        </div>
+      </section>
+
+      <!-- 上传新头像 -->
+      <section class="user-panel card-elevated" id="panel-upload">
+        <h3 class="user-panel-title">上传新头像</h3>
+        <p class="hint">前端直传阿里云 OSS（STS 临时凭证），安全高效。</p>
+        <div class="avatar-upload-form">
+          <div class="upload-row">
+            <input type="file" id="avatar-file" accept="image/*" class="user-file-input" />
+          </div>
+          <div class="upload-row">
+            <label class="user-form-label">目录
+              <input type="text" id="avatar-dir" class="user-input-inline" value="avatar" placeholder="可选，如 avatar" />
+            </label>
+          </div>
+          <div class="user-btn-row">
+            <button type="button" class="btn btn-user-primary" id="btn-upload-avatar">
+              上传并保存头像
+            </button>
+          </div>
+          <p class="hint" id="upload-hint"></p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="user-footer">
+    <a href="user-dashboard.html">返回仪表盘</a>
+    ·
+    <a href="exam-list.html">竞赛列表</a>
+    ·
+    <a href="user-login.html">登录 / 注册</a>
+  </footer>
+
+  <div id="toast" class="user-toast hidden" role="status"></div>
+
+  <script src="https://gosspublic.alicdn.com/aliyun-oss-sdk-6.17.1.min.js"></script>
+  <script src="js/friend-api.js"></script>
+  <script src="js/avatar.js"></script>
+</body>
+</html>

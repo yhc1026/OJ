@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OJ · 学员登录</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/user.css" />
+  </head>
+  <body class="user-body user-login-page">
+    <div class="page-bg user-page-bg" aria-hidden="true"></div>
+
+    <header class="user-header">
+      <div class="user-brand">
+        <a href="index.html" class="user-back" title="返回模式选择">← 首页</a>
+        <div class="brand-mark user-mark">OJ</div>
+        <div>
+          <h1 class="user-product">学员中心</h1>
+          <span class="user-badge-preview">登录 · 注册 · 访客浏览</span>
+        </div>
+      </div>
+      <div class="user-header-actions user-header-api">
+        <label class="user-api-label">
+          网关地址
+          <input
+            type="text"
+            id="friend-api-base"
+            class="user-input-inline"
+            placeholder="http://localhost:9000"
+          />
+        </label>
+        <button type="button" class="btn btn-sm btn-secondary" id="friend-btn-save-api">保存</button>
+      </div>
+    </header>
+
+    <main class="user-main user-main-app user-login-main">
+      <section class="panel panel-login card-elevated user-login-card">
+        <div class="card-head">
+          <h2>欢迎回来</h2>
+          <p class="hint">登录后可报名竞赛、查看「我报名的竞赛」；访客仅可浏览公开竞赛列表与详情。</p>
+        </div>
+
+        <div class="user-tabs" role="tablist">
+          <button type="button" class="user-tab active" data-tab="register">注册</button>
+          <button type="button" class="user-tab" data-tab="phone">手机号登录</button>
+          <button type="button" class="user-tab" data-tab="email-pwd">邮箱密码登录</button>
+          <button type="button" class="user-tab" data-tab="email-code">邮箱验证码登录</button>
+        </div>
+
+        <div class="user-tab-panel" id="panel-register">
+          <div class="user-form-grid">
+            <label>昵称 <input type="text" id="reg-nick" /></label>
+            <label>性别 (0女 1男 2未知) <input type="number" id="reg-gender" min="0" max="2" value="2" /></label>
+            <label>手机号 <input type="text" id="reg-phone" placeholder="11位" /></label>
+            <label>密码 <input type="password" id="reg-pwd" /></label>
+            <label>邮箱 <input type="email" id="reg-email" /></label>
+          </div>
+          <button type="button" class="btn btn-user-primary" id="friend-btn-register">提交注册</button>
+        </div>
+
+        <div class="user-tab-panel hidden" id="panel-phone">
+          <div class="user-form-grid">
+            <label>手机号 <input type="text" id="login-phone" /></label>
+            <label>密码 <input type="password" id="login-phone-pwd" /></label>
+          </div>
+          <button type="button" class="btn btn-user-primary" id="friend-btn-login-phone">使用手机号登录</button>
+        </div>
+
+        <div class="user-tab-panel hidden" id="panel-email-pwd">
+          <div class="user-form-grid">
+            <label>邮箱 <input type="email" id="login-email" /></label>
+            <label>密码 <input type="password" id="login-email-pwd" /></label>
+          </div>
+          <button type="button" class="btn btn-user-primary" id="friend-btn-login-email">使用邮箱登录</button>
+        </div>
+
+        <div class="user-tab-panel hidden" id="panel-email-code">
+          <p class="hint">先发送验证码，再登录；验证码登录仅返回 token 时，登出需在学员中心填写 userId。</p>
+          <div class="user-form-grid">
+            <label>邮箱 <input type="email" id="code-email" /></label>
+            <button type="button" class="btn btn-sm btn-secondary" id="friend-btn-send-code">发送验证码</button>
+            <label>验证码 <input type="text" id="code-value" /></label>
+          </div>
+          <button type="button" class="btn btn-user-primary" id="friend-btn-login-code">用验证码登录</button>
+        </div>
+
+        <p class="status-line muted" id="login-status-line"></p>
+
+        <div class="user-login-actions">
+          <button type="button" class="btn btn-secondary btn-block" id="btn-guest-enter">
+            访客浏览（不登录）
+          </button>
+          <p class="hint user-login-hint">访客仅调用网关白名单接口（竞赛列表与详情等），无法报名。</p>
+        </div>
+      </section>
+
+      <p class="user-login-footer">
+        <a href="admin.html">管理员入口</a>
+        ·
+        <a href="user-dashboard.html" id="link-back-user">已有会话直接进入学员中心</a>
+      </p>
+    </main>
+
+    <div id="user-toast" class="user-toast hidden" role="status"></div>
+
+    <script src="js/friend-api.js"></script>
+    <script src="js/user-login.js"></script>
+  </body>
+</html>

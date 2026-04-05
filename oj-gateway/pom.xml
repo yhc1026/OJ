@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  网关服务（oj-gateway）
+  - 作为系统对外统一入口（后续可加入鉴权、限流、路由、跨域等）
+  - 基于 Spring Cloud Gateway（响应式栈）
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <parent>
+    <artifactId>bite-oj</artifactId>
+    <groupId>com.bite</groupId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>oj-gateway</artifactId>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-gateway</artifactId>
+    </dependency>
+
+    <!-- Nacos 配置中心（bootstrap 中 spring.config.import=nacos:... 需要此依赖） -->
+    <dependency>
+      <groupId>com.alibaba.cloud</groupId>
+      <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+    </dependency>
+
+    <!-- Nacos 服务发现（后续可用 lb://service-name 进行动态路由） -->
+    <dependency>
+      <groupId>com.alibaba.cloud</groupId>
+      <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+    </dependency>
+
+    <!-- Gateway 使用 lb:// 服务名路由时必须引入 LoadBalancer（替代旧版 Ribbon） -->
+    <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-loadbalancer</artifactId>
+    </dependency>
+
+    <!-- Result / ResultCode / JwtTokenUtils -->
+    <dependency>
+      <groupId>com.bite</groupId>
+      <artifactId>oj-common-core</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
+
+    <!-- 登录态 Redis 封装（含 spring-boot-starter-data-redis） -->
+    <dependency>
+      <groupId>com.bite</groupId>
+      <artifactId>oj-common-redis</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
+</project>
+

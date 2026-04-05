@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OJ · 题目详情</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/user.css" />
+</head>
+<body class="user-body">
+  <div class="page-bg user-page-bg" aria-hidden="true"></div>
+
+  <header class="user-header">
+    <div class="user-brand">
+      <a href="#" class="user-back" id="back-link">← 返回竞赛</a>
+      <div class="brand-mark user-mark">OJ</div>
+      <div>
+        <h1 class="user-product" id="q-title">题目详情</h1>
+        <span class="user-badge-preview" id="page-badge">加载中…</span>
+      </div>
+    </div>
+    <div class="user-header-actions">
+      <span class="user-session-pill" id="session-label">…</span>
+      <a href="user-login.html" class="btn btn-sm btn-secondary" id="link-login">去登录</a>
+      <button type="button" class="btn btn-user-primary btn-sm hidden" id="btn-logout">退出</button>
+    </div>
+  </header>
+
+  <main class="user-main">
+    <!-- 加载状态 -->
+    <div id="state-loading" class="user-panel card-elevated">
+      <p class="hint">正在加载题目内容…</p>
+      <p class="hint" id="req-hint"></p>
+    </div>
+
+    <!-- 题目正文 -->
+    <div id="state-content" class="hidden">
+      <article class="q-view-wrap card-elevated" id="q-view-root"></article>
+    </div>
+
+    <!-- 加载失败 -->
+    <div id="state-error" class="user-panel card-elevated hidden">
+      <p class="status-line err" id="error-msg">加载失败</p>
+      <button type="button" class="btn btn-secondary btn-sm" onclick="location.reload()">重试</button>
+    </div>
+  </main>
+
+  <footer class="user-footer">
+    <a href="#" id="footer-back">返回竞赛</a>
+    ·
+    <a href="user-dashboard.html">返回仪表盘</a>
+    ·
+    <a href="user-login.html">登录 / 注册</a>
+  </footer>
+
+  <div id="toast" class="user-toast hidden" role="status"></div>
+
+  <script src="js/friend-api.js"></script>
+  <script src="js/question-view.js"></script>
+</body>
+</html>

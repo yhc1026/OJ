@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  服务间调用 API 模块（oj-api）
+  - 放置跨服务共享的 DTO / VO / 通用请求响应对象 / Feign 接口等
+  - 业务微服务依赖它以避免“相互依赖/复制粘贴模型”
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <parent>
+    <artifactId>bite-oj</artifactId>
+    <groupId>com.bite</groupId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>oj-api</artifactId>
+
+  <dependencies>
+    <!-- 示例：常用的参数校验注解（@NotNull / @Validated 等） -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-validation</artifactId>
+      <optional>true</optional>
+    </dependency>
+  </dependencies>
+</project>
+

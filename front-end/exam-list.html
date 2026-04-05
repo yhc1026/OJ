@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OJ · 竞赛列表</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/user.css" />
+</head>
+<body class="user-body">
+  <div class="page-bg user-page-bg" aria-hidden="true"></div>
+
+  <header class="user-header">
+    <div class="user-brand">
+      <a href="user-dashboard.html" class="user-back" title="返回仪表盘">← 仪表盘</a>
+      <div class="brand-mark user-mark">OJ</div>
+      <div>
+        <h1 class="user-product">竞赛列表</h1>
+        <span class="user-badge-preview" id="page-badge">竞赛浏览</span>
+      </div>
+    </div>
+    <div class="user-header-actions">
+      <label class="user-api-label">
+        网关
+        <input type="text" id="friend-api-base" class="user-input-inline" placeholder="http://localhost:9000" />
+      </label>
+      <button type="button" class="btn btn-sm btn-secondary" id="btn-save-api">保存</button>
+      <span class="user-session-pill" id="session-label">…</span>
+      <a href="user-login.html" class="btn btn-sm btn-secondary" id="link-login">去登录</a>
+      <button type="button" class="btn btn-user-primary btn-sm" id="btn-logout">退出</button>
+    </div>
+  </header>
+
+  <main class="user-main">
+    <!-- 工具栏 -->
+    <div class="user-toolbar panel card-elevated">
+      <div class="toolbar-left">
+        <h2 class="toolbar-title">公开竞赛</h2>
+        <button type="button" class="btn btn-sm btn-secondary" id="btn-refresh">刷新列表</button>
+      </div>
+      <div class="toolbar-right">
+        <button type="button" class="btn btn-sm btn-ghost" id="btn-goto-mine">
+          📋 我的报名
+        </button>
+      </div>
+    </div>
+
+    <!-- 进行中 + 未开始 -->
+    <section class="user-panel card-elevated" id="panel-active">
+      <h3 class="user-panel-title">
+        <span class="status-dot status-dot--active"></span>
+        进行中 / 未开始
+      </h3>
+      <div id="list-active" class="exam-row-list" aria-live="polite"></div>
+    </section>
+
+    <!-- 已结束 -->
+    <section class="user-panel card-elevated" id="panel-finished">
+      <h3 class="user-panel-title">
+        <span class="status-dot status-dot--finished"></span>
+        已结束
+      </h3>
+      <div id="list-finished" class="exam-row-list" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <footer class="user-footer">
+    <a href="user-dashboard.html">返回仪表盘</a>
+    ·
+    <a href="user-login.html">登录 / 注册</a>
+    ·
+    <a href="admin.html">管理员入口</a>
+  </footer>
+
+  <div id="toast" class="user-toast hidden" role="status"></div>
+
+  <script src="js/friend-api.js"></script>
+  <script src="js/exam-list.js"></script>
+</body>
+</html>

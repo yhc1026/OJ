@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OJ · 我的报名</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/user.css" />
+</head>
+<body class="user-body">
+  <div class="page-bg user-page-bg" aria-hidden="true"></div>
+
+  <header class="user-header">
+    <div class="user-brand">
+      <a href="user-dashboard.html" class="user-back">← 仪表盘</a>
+      <div class="brand-mark user-mark">OJ</div>
+      <div>
+        <h1 class="user-product">我的报名</h1>
+        <span class="user-badge-preview" id="page-badge">已报名的竞赛</span>
+      </div>
+    </div>
+    <div class="user-header-actions">
+      <span class="user-session-pill" id="session-label">…</span>
+      <a href="user-login.html" class="btn btn-sm btn-secondary" id="link-login">去登录</a>
+      <button type="button" class="btn btn-user-primary btn-sm hidden" id="btn-logout">退出</button>
+    </div>
+  </header>
+
+  <main class="user-main">
+    <!-- 未登录提示 -->
+    <div id="state-unauth" class="user-panel card-elevated hidden">
+      <div class="unauth-box">
+        <p class="unauth-icon">🔒</p>
+        <h2 class="unauth-title">请先登录</h2>
+        <p class="hint">我的报名功能需要登录后访问</p>
+        <a href="user-login.html" class="btn btn-user-primary">去登录</a>
+      </div>
+    </div>
+
+    <!-- 列表内容 -->
+    <div id="state-content">
+      <div class="user-toolbar panel card-elevated">
+        <div class="toolbar-left">
+          <h2 class="toolbar-title">已报名的竞赛</h2>
+        </div>
+        <div class="toolbar-right">
+          <button type="button" class="btn btn-sm btn-secondary" id="btn-refresh">刷新</button>
+          <a href="exam-list.html" class="btn btn-sm btn-ghost">📋 竞赛列表</a>
+        </div>
+      </div>
+
+      <section class="user-panel card-elevated">
+        <div id="my-reg-list" aria-live="polite"></div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="user-footer">
+    <a href="user-dashboard.html">返回仪表盘</a>
+    ·
+    <a href="exam-list.html">竞赛列表</a>
+    ·
+    <a href="user-login.html">登录 / 注册</a>
+  </footer>
+
+  <div id="toast" class="user-toast hidden" role="status"></div>
+
+  <script src="js/friend-api.js"></script>
+  <script src="js/my-registration.js"></script>
+</body>
+</html>

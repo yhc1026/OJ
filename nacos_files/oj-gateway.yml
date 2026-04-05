@@ -1,0 +1,36 @@
+# ============================================================
+# Nacos 配置：oj-gateway.yml  ·  Group: DEFAULT_GROUP
+# 发布到 Nacos 后重启 oj-gateway 生效
+# ============================================================
+
+# 网关路由
+spring:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: false
+      routes:
+        - id: oj-system
+          uri: lb://oj-system
+          predicates:
+            - Path=/sysUser/**,/user/**,/question/**,/exam/**
+        - id: oj-friend
+          uri: lb://oj-friend
+          predicates:
+            - Path=/friend/**
+
+# 鉴权白名单：完整路径，逗号分隔（token 校验统一在 gateway）
+security:
+  whitelist:
+    paths: >
+      /sysUser/login,
+      /question/page,/question/list,/question/detail,/question/brief,
+      /question/brief-by-title,/question/detail-by-title,
+      /question/list-by-title-like,/question/list-by-difficulty,
+      /friend/user/register,/friend/user/loginByPhonePassword,
+      /friend/user/loginByEmailPassword,/friend/user/logout,
+      /friend/user/sendEmailCode,/friend/user/loginByEmailCode,
+      /friend/exam/list/active,/friend/exam/list/finished,/friend/exam/detail,
+      /friend/search/question/by-id-like,/friend/search/question/by-title-like,
+      /friend/search/question/by-difficulty

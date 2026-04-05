@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OJ · 学员中心</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/user.css" />
+</head>
+<body class="user-body">
+  <div class="page-bg user-page-bg" aria-hidden="true"></div>
+
+  <!-- 顶部栏 -->
+  <header class="user-header">
+    <div class="user-brand">
+      <a href="index.html" class="user-back" title="返回模式选择">← 首页</a>
+      <div class="brand-mark user-mark">OJ</div>
+      <div>
+        <h1 class="user-product">练习与评测</h1>
+        <span class="user-badge-preview" id="page-badge">学员中心</span>
+      </div>
+    </div>
+    <div class="user-header-actions">
+      <label class="user-api-label">
+        网关
+        <input type="text" id="friend-api-base" class="user-input-inline" placeholder="http://localhost:9000" />
+      </label>
+      <button type="button" class="btn btn-sm btn-secondary" id="btn-save-api">保存</button>
+      <span class="user-session-pill" id="session-label">…</span>
+      <a href="user-login.html" class="btn btn-sm btn-secondary" id="link-login">去登录</a>
+      <button type="button" class="btn btn-user-primary btn-sm hidden" id="btn-logout">退出</button>
+    </div>
+  </header>
+
+  <main class="user-main">
+    <!-- 欢迎区 -->
+    <section class="user-hero panel card-elevated user-hero-compact" id="hero-section">
+      <div class="hero-text-wrap">
+        <h2 class="user-hero-title" id="hero-title">欢迎使用 OJ 练习平台</h2>
+        <p class="user-hero-text" id="hero-sub">
+          浏览竞赛、查看题目、在线刷题；登录后可报名竞赛、管理头像。
+        </p>
+      </div>
+      <div class="hero-user-info hidden" id="hero-user-info">
+        <span class="hero-avatar-icon">👤</span>
+        <div>
+          <p class="hero-user-name" id="hero-user-name">已登录用户</p>
+          <p class="hero-user-id" id="hero-user-id">ID: —</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 导航网格 -->
+    <section class="nav-grid-section">
+      <!-- 竞赛区 -->
+      <div class="nav-section-group">
+        <h3 class="nav-section-label">📋 竞赛</h3>
+        <div class="nav-card-grid">
+          <a href="exam-list.html" class="nav-card card-elevated">
+            <div class="nav-card-icon">📋</div>
+            <div class="nav-card-body">
+              <h4 class="nav-card-title">竞赛列表</h4>
+              <p class="nav-card-desc">浏览进行中 / 已结束的公开竞赛</p>
+            </div>
+            <div class="nav-card-arrow">→</div>
+          </a>
+          <a href="my-registration.html" class="nav-card card-elevated" id="card-my-reg">
+            <div class="nav-card-icon">🏆</div>
+            <div class="nav-card-body">
+              <h4 class="nav-card-title">我的报名</h4>
+              <p class="nav-card-desc">查看已报名的竞赛，快速进入详情</p>
+            </div>
+            <div class="nav-card-arrow">→</div>
+          </a>
+        </div>
+      </div>
+
+      <!-- 题目区 -->
+      <div class="nav-section-group">
+        <h3 class="nav-section-label">📚 题目</h3>
+        <div class="nav-card-grid">
+          <a href="question-list.html" class="nav-card card-elevated" id="card-question-list">
+            <div class="nav-card-icon">📚</div>
+            <div class="nav-card-body">
+              <h4 class="nav-card-title">题目列表</h4>
+              <p class="nav-card-desc">查看所有题目，点击查看详情</p>
+            </div>
+            <div class="nav-card-arrow">→</div>
+          </a>
+        </div>
+      </div>
+
+      <!-- 个人区 -->
+      <div class="nav-section-group">
+        <h3 class="nav-section-label">👤 个人</h3>
+        <div class="nav-card-grid">
+          <a href="avatar.html" class="nav-card card-elevated" id="card-avatar">
+            <div class="nav-card-icon">📷</div>
+            <div class="nav-card-body">
+              <h4 class="nav-card-title">头像管理</h4>
+              <p class="nav-card-desc">上传与查看个人头像</p>
+            </div>
+            <div class="nav-card-arrow">→</div>
+          </a>
+        </div>
+      </div>
+
+      <!-- 规划中功能 -->
+      <div class="nav-section-group">
+        <h3 class="nav-section-label">🛠 规划中</h3>
+        <div class="nav-card-grid">
+          <div class="nav-card nav-card--disabled card-elevated">
+            <div class="nav-card-icon">⌨️</div>
+            <div class="nav-card-body">
+              <h4 class="nav-card-title">在线 IDE</h4>
+              <p class="nav-card-desc nav-card-desc--disabled">编写与提交代码（规划中）</p>
+            </div>
+          </div>
+          <div class="nav-card nav-card--disabled card-elevated">
+            <div class="nav-card-icon">📤</div>
+            <div class="nav-card-body">
+              <h4 class="nav-card-title">我的提交</h4>
+              <p class="nav-card-desc nav-card-desc--disabled">查看提交记录与评测结果（规划中）</p>
+            </div>
+          </div>
+          <div class="nav-card nav-card--disabled card-elevated">
+            <div class="nav-card-icon">🏅</div>
+            <div class="nav-card-body">
+              <h4 class="nav-card-title">排行榜</h4>
+              <p class="nav-card-desc nav-card-desc--disabled">查看个人与全局排名（规划中）</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 访客提示（未登录时显示） -->
+    <section class="guest-tip panel card-elevated hidden" id="guest-tip">
+      <div class="guest-tip-inner">
+        <span class="guest-tip-icon">💡</span>
+        <div>
+          <p class="guest-tip-title">访客浏览中</p>
+          <p class="hint">可浏览竞赛与题目；登录后可报名竞赛、管理头像。<a href="user-login.html">立即登录 →</a></p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="user-footer">
+    <a href="index.html">返回模式选择</a>
+    ·
+    <a href="user-login.html">登录 / 注册</a>
+    ·
+    <a href="admin.html">管理员入口</a>
+  </footer>
+
+  <div id="toast" class="user-toast hidden" role="status"></div>
+
+  <script src="js/friend-api.js"></script>
+  <script src="js/user-dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+# bootstrap.yml
+spring:
+  application:
+    name: oj-system
+  # 删除 spring.data.redis 配置块
+  cloud:
+    nacos:
+      config:
+        server-addr: ${NACOS_SERVER:localhost:8848}
+        file-extension: yaml
+        shared-configs:
+          - data-id: common-datasource.yaml
+            group: DEFAULT_GROUP
+            refresh: true
+          - data-id: common-mybatis.yaml
+            group: DEFAULT_GROUP
+            refresh: true
+          - data-id: common-redis.yaml  # Redis 配置从这里加载
+            group: DEFAULT_GROUP
+            refresh: true
+          - data-id: common-elasticsearch.yaml
+            group: DEFAULT_GROUP
+            refresh: true
+        extension-configs:
+          - data-id: oj-system.yaml
+            group: DEFAULT_GROUP
+            refresh: true
+      discovery:
+        server-addr: ${NACOS_SERVER:localhost:8848}
+
+security:
+  password:
+    salt: ${PWD_SALT:oj-salt}
+  jwt:
+    # JWT 仅用来做签名校验，过期时间建议长于 Redis 登录态
+    expire-seconds: ${JWT_EXPIRE_SECONDS:604800}
+    secret: ${JWT_SECRET:oj-jwt-secret-key-please-change-2026}
+  token:
+    # Redis 登录两键 TTL（秒），与网关续期一致，默认 43200=12 小时
+    ttl-seconds: ${TOKEN_TTL_SECONDS:43200}
+  # 与网关 LoginTokenFilter 一致：白名单路径可不携带 token（题目只读放行）
+  whitelist:
+    paths: /sysUser/login,/question/page,/question/list,/question/detail,/question/brief,/question/brief-by-title,/question/detail-by-title,/question/list-by-title-like,/question/list-by-difficulty

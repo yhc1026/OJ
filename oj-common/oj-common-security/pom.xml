@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <parent>
+    <artifactId>oj-common</artifactId>
+    <groupId>com.bite</groupId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>oj-common-security</artifactId>
+
+  <dependencies>
+    <!-- 统一返回 Result / ResultCode -->
+    <dependency>
+      <groupId>com.bite</groupId>
+      <artifactId>oj-common-core</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
+
+    <!-- 提供 ControllerAdvice / ExceptionHandler 等注解与异常类型 -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-web</artifactId>
+    </dependency>
+
+    <!-- HttpRequestMethodNotSupportedException 依赖 ServletException -->
+    <dependency>
+      <groupId>jakarta.servlet</groupId>
+      <artifactId>jakarta.servlet-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
+</project>
+

@@ -1,0 +1,24 @@
+# Maven
+**/target/
+.mvn/wrapper/maven-wrapper.jar
+
+# IntelliJ IDEA / Cursor / VS Code
+.idea/
+*.iml
+.vscode/
+.cursor/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Secrets (never commit)
+*.env
+application-*.yml
+application-*.yaml
+bootstrap-*.yml
+bootstrap-*.yaml
+

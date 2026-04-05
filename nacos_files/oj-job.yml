@@ -1,0 +1,31 @@
+# =============================================================================
+# Data ID: oj-job.yml  |  Group: DEFAULT_GROUP  |  格式: YAML
+# 说明: oj-job 微服务专属 — MyBatis-Plus、XXL-JOB 执行器
+# 依赖: shared-configs 已拉取 common-datasource.yaml、common-redis.yaml
+#
+# 调度中心地址（重要）:
+# - oj-job 在「本机/IDE」跑、Admin 在 Docker 且映射 8080: 默认即可
+# - oj-job 在「Docker 容器」跑、与 Admin 同 compose 网络: 设置环境变量
+#   XXL_JOB_ADMIN_ADDRESSES=http://xxl-job-admin:8080/xxl-job-admin
+#   （主机名用你 compose 里 xxl-job-admin 的 service 名，不要用 127.0.0.1）
+# =============================================================================
+
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**/*.xml
+  type-aliases-package: com.bite.job.domain
+  configuration:
+    map-underscore-to-camel-case: true
+
+xxl:
+  job:
+    accessToken: ${XXL_JOB_ACCESS_TOKEN:default_token}
+    admin:
+      # 与 Admin 容器 context-path 一致，一般为 /xxl-job-admin
+      addresses: ${XXL_JOB_ADMIN_ADDRESSES:http://127.0.0.1:8080/xxl-job-admin}
+    executor:
+      appname: ${XXL_JOB_EXECUTOR_APPNAME:oj-job-executor}
+      address: ${XXL_JOB_EXECUTOR_ADDRESS:}
+      ip: ${XXL_JOB_EXECUTOR_IP:}
+      port: ${XXL_JOB_EXECUTOR_PORT:9999}
+      logpath: ${XXL_JOB_EXECUTOR_LOGPATH:logs/xxl-job/jobhandler}
+      logretentiondays: ${XXL_JOB_EXECUTOR_LOG_RETENTION_DAYS:30}

@@ -1,0 +1,38 @@
+# =============================================================================
+# Data ID: oj-system.yaml
+# Group: DEFAULT_GROUP
+# 说明: oj-system 服务专属配置（extension-configs）
+# 与 bootstrap.yml 中 security.* 可并存；也可把 security 整段挪到此处统一管理
+# =============================================================================
+server:
+  port: 9201
+
+spring:
+  application:
+    name: oj-system
+  cloud:
+    nacos:
+      discovery:
+        enabled: true
+        # 若与 bootstrap 中 server-addr 重复，以 bootstrap 为准；此处可作文档化占位
+        # server-addr: ${NACOS_SERVER:127.0.0.1:8848}
+
+# 操作人请求头名（与网关转发一致，一般无需改）
+# app:
+#   security:
+#     operator-id-header: X-User-Id
+
+# 与网关白名单一致（可不配，使用 oj-system bootstrap 默认）：题目只读路径免 token
+# security:
+#   whitelist:
+#     paths: /sysUser/login,/question/page,/question/detail,/question/brief,/question/brief-by-title,/question/detail-by-title
+
+# 可选：与代码中 @Value 一致，便于在 Nacos 统一改（bootstrap 里已有默认值时可删）
+# security:
+#   password:
+#     salt: ${PWD_SALT:oj-salt}
+#   jwt:
+#     secret: ${JWT_SECRET:oj-jwt-secret-key-please-change-2026}
+#     expire-seconds: ${JWT_EXPIRE_SECONDS:604800}
+#   token:
+#     ttl-seconds: ${TOKEN_TTL_SECONDS:43200}  # Redis 登录两键 TTL（秒），默认 12h，与网关一致

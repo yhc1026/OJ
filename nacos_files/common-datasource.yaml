@@ -1,0 +1,23 @@
+# =============================================================================
+# Data ID: common-datasource.yaml
+# Group: DEFAULT_GROUP
+# 说明: 多服务可共享的数据源（当前 oj-system 通过 shared-configs 引用）
+# =============================================================================
+spring:
+  datasource:
+    # MySQL 8 驱动（与 Spring Boot 3 一致）
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/oj?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: 123456
+    # 显式使用 HikariCP（Spring Boot 默认即为 Hikari，此处写明便于团队理解）
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      pool-name: OjHikariPool
+      minimum-idle: 5
+      maximum-pool-size: 20
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      # 连接测试（MySQL 建议）
+      connection-test-query: SELECT 1

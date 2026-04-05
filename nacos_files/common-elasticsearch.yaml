@@ -1,0 +1,20 @@
+# =============================================================================
+# Data ID: common-elasticsearch.yaml
+# Group: DEFAULT_GROUP
+# 说明: 多服务可共享的 Elasticsearch 连接配置（Spring Boot 3）
+#
+# 你的 Docker 信息：
+# - Elasticsearch 容器 oj-es-dev：宿主机映射 9200 → http://127.0.0.1:9200
+# - Kibana 容器 oj-kibana-dev：宿主机映射 5601 → http://127.0.0.1:5601
+#
+# 用法建议：
+# - 服务跑在宿主机/IDE：保持默认即可
+# - 服务也跑在 Docker 并与 ES 同网络：把 ES_URIS 改成 http://oj-es-dev:9200（或你的 service 名）
+# =============================================================================
+spring:
+  elasticsearch:
+    uris: ${ES_URIS:http://127.0.0.1:9200}
+    # 若你开启了 ES 安全认证（xpack），再打开下面两项：
+    # username: ${ES_USERNAME:elastic}
+    # password: ${ES_PASSWORD:}
+

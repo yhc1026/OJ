@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OJ · 竞赛详情</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/user.css" />
+</head>
+<body class="user-body">
+  <div class="page-bg user-page-bg" aria-hidden="true"></div>
+
+  <header class="user-header">
+    <div class="user-brand">
+      <a href="exam-list.html" class="user-back" id="back-link">← 竞赛列表</a>
+      <div class="brand-mark user-mark">OJ</div>
+      <div>
+        <h1 class="user-product" id="exam-title">竞赛详情</h1>
+        <span class="user-badge-preview" id="page-badge">…</span>
+      </div>
+    </div>
+    <div class="user-header-actions">
+      <span class="user-session-pill" id="session-label">…</span>
+      <a href="user-login.html" class="btn btn-sm btn-secondary" id="link-login">去登录</a>
+      <button type="button" class="btn btn-user-primary btn-sm hidden" id="btn-logout">退出</button>
+    </div>
+  </header>
+
+  <main class="user-main">
+    <!-- 加载状态 -->
+    <div id="state-loading" class="user-panel card-elevated">
+      <p class="hint">正在加载竞赛详情…</p>
+    </div>
+
+    <!-- 竞赛信息 -->
+    <div id="state-detail" class="hidden">
+      <section class="user-panel card-elevated" id="panel-exam-info">
+        <div class="exam-detail-head">
+          <h2 class="exam-detail-title" id="detail-title">—</h2>
+          <span class="exam-detail-badge" id="detail-status"></span>
+        </div>
+        <dl class="exam-detail-dl">
+          <div class="exam-detail-dl-row">
+            <dt>竞赛编号</dt><dd id="detail-id">—</dd>
+          </div>
+          <div class="exam-detail-dl-row">
+            <dt>开始时间</dt><dd id="detail-start">—</dd>
+          </div>
+          <div class="exam-detail-dl-row">
+            <dt>结束时间</dt><dd id="detail-end">—</dd>
+          </div>
+        </dl>
+        <!-- 报名区（登录后可见） -->
+        <div id="register-zone" class="register-zone hidden">
+          <div class="register-form-row">
+            <label>
+              竞赛编号
+              <input type="text" id="reg-exam-id" placeholder="自动填充" readonly class="user-input-inline" />
+            </label>
+            <button type="button" class="btn btn-user-primary" id="btn-register-exam">确认报名</button>
+          </div>
+          <p class="hint" id="register-hint"></p>
+        </div>
+      </section>
+
+      <!-- 题目列表 -->
+      <section class="user-panel card-elevated" id="panel-questions">
+        <h3 class="user-panel-title">题目列表</h3>
+        <div id="question-list" class="exam-question-grid" aria-live="polite"></div>
+      </section>
+    </div>
+
+    <!-- 加载失败 -->
+    <div id="state-error" class="user-panel card-elevated hidden">
+      <p class="status-line err" id="error-msg">加载失败</p>
+      <button type="button" class="btn btn-secondary btn-sm" onclick="location.reload()">重试</button>
+    </div>
+  </main>
+
+  <footer class="user-footer">
+    <a href="exam-list.html">返回竞赛列表</a>
+    ·
+    <a href="user-dashboard.html">返回仪表盘</a>
+    ·
+    <a href="user-login.html">登录 / 注册</a>
+  </footer>
+
+  <div id="toast" class="user-toast hidden" role="status"></div>
+
+  <script src="js/friend-api.js"></script>
+  <script src="js/exam-detail.js"></script>
+</body>
+</html>

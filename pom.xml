@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  项目根父工程（聚合 POM）
+  - 统一管理 Spring Boot / Spring Cloud / Spring Cloud Alibaba 的版本与依赖导入
+  - 只负责聚合模块与依赖管理，不包含可运行代码
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>3.0.1</version>
+    <relativePath/>
+  </parent>
+
+  <groupId>com.bite</groupId>
+  <artifactId>bite-oj</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <modules>
+    <!-- 服务间调用的 API / DTO 等（当前为占位模块） -->
+    <module>oj-api</module>
+    <!-- 公共基础能力（按子模块拆分，例如 redis） -->
+    <module>oj-common</module>
+    <!-- Spring Cloud Gateway 网关 -->
+    <module>oj-gateway</module>
+    <!-- 业务微服务集合（统一管理、统一构建） -->
+    <module>oj-modules</module>
+  </modules>
+
+  <properties>
+    <!-- 课件要求：JDK 17 + Spring Boot 3.x -->
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
+    <!-- 用 release 强制编译到指定平台（比 source/target 更稳，避免 IDE/插件不一致） -->
+    <maven.compiler.release>17</maven.compiler.release>
+    <spring-boot.version>3.0.1</spring-boot.version>
+    <spring-cloud-alibaba.version>2022.0.0.0-RC2</spring-cloud-alibaba.version>
+    <spring-cloud.version>2022.0.0</spring-cloud.version>
+  </properties>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <!-- 统一强制所有模块使用 JDK17 编译 -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <configuration>
+            <release>${maven.compiler.release}</release>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+
+  <dependencies>
+    <!--
+      bootstrap 启动器：
+      让 Spring Cloud 的 bootstrap 配置阶段生效（例如未来接入 Nacos Config 时会用到）
+    -->
+    <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-bootstrap</artifactId>
+    </dependency>
+  </dependencies>
+
+  <dependencyManagement>
+    <dependencies>
+      <!-- SpringCloud Alibaba 微服务 -->
+      <dependency>
+        <groupId>com.alibaba.cloud</groupId>
+        <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+        <version>${spring-cloud-alibaba.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+
+      <!-- SpringCloud 微服务 -->
+      <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-dependencies</artifactId>
+        <version>${spring-cloud.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+
+      <!-- SpringBoot 依赖配置 -->
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-dependencies</artifactId>
+        <version>${spring-boot.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+</project>
+

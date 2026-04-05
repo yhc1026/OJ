@@ -1,0 +1,45 @@
+# bootstrap.yml
+spring:
+  config:
+    import:
+      - optional:nacos:common-oss.yaml?group=DEFAULT_GROUP
+  application:
+    name: oj-friend
+  mail:
+    host: ${MAIL_HOST:smtp.qq.com}
+    port: ${MAIL_PORT:587}
+    username: 478946668@qq.com
+    password: tklngpcowssnbjef
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+  cloud:
+    nacos:
+      config:
+        server-addr: ${NACOS_SERVER:localhost:8848}
+        file-extension: yml
+        # 共享配置：这些配置从Nacos读取
+        shared-configs:
+          - data-id: common-datasource.yaml
+            group: DEFAULT_GROUP
+            refresh: true
+          - data-id: common-mybatis.yaml
+            group: DEFAULT_GROUP
+            refresh: true
+          - data-id: common-redis.yaml
+            group: DEFAULT_GROUP
+            refresh: true
+          - data-id: common-elasticsearch.yaml
+            group: DEFAULT_GROUP
+            refresh: true
+          - data-id: common-file.yaml
+            group: DEFAULT_GROUP
+            refresh: true
+      discovery:
+        server-addr: ${NACOS_SERVER:localhost:8848}
+
+server:
+  port: 9204

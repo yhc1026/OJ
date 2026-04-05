@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  系统服务（oj-system）
+  - 示例微服务：承载系统/权限/用户等基础域（后续按课件逐步扩展）
+  - 目前仅提供最小可运行骨架与 /ping 健康检查接口
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <parent>
+    <artifactId>oj-modules</artifactId>
+    <groupId>com.bite</groupId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>oj-system</artifactId>
+
+  <dependencies>
+    <!-- 登录态等 Redis 封装（LoginSessionRedisService） -->
+    <dependency>
+      <groupId>com.bite</groupId>
+      <artifactId>oj-common-redis</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
+
+    <!-- Elasticsearch 公共组件（依赖与基础实现统一下沉到 oj-common） -->
+    <dependency>
+      <groupId>com.bite</groupId>
+      <artifactId>oj-common-elasticsearch</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
+
+    <!-- MyBatis-Plus：在 MyBatis 基础上增强，提供 BaseMapper 等通用 CRUD 能力 -->
+    <dependency>
+      <groupId>com.baomidou</groupId>
+      <artifactId>mybatis-plus-boot-starter</artifactId>
+      <version>3.5.3.1</version>
+    </dependency>
+
+    <!-- 列表分页使用 MyBatis-Plus Page（与 PageHelper 二选一；PageHelper 6.x 与 MP 3.5.3 共用 JSQLParser 易冲突） -->
+
+    <!-- MySQL 驱动（JDBC） -->
+    <dependency>
+      <groupId>com.mysql</groupId>
+      <artifactId>mysql-connector-j</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+
+    <!-- Lombok：用注解生成 getter/setter/toString 等（编译期生效，不打进最终产物） -->
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>1.18.32</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <!-- spring-boot-starter-data-redis 由 oj-common-redis 传递引入 -->
+
+    <!-- 使用 Spring 自带 MD5 工具（spring-core 已由 starter-web 间接引入，这里不额外加依赖） -->
+
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
+
+      <!-- 让 Maven 编译期启用 Lombok 注解处理 -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <annotationProcessorPaths>
+            <path>
+              <groupId>org.projectlombok</groupId>
+              <artifactId>lombok</artifactId>
+              <version>1.18.32</version>
+            </path>
+          </annotationProcessorPaths>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>
+

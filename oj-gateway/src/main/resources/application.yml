@@ -1,0 +1,21 @@
+# 本地默认配置（与 Nacos 合并）；开发期允许前端静态页跨域联调
+#
+# 路由说明：若仅依赖 Nacos 中的 oj-gateway.yml，在未发布/未连上 Nacos 时会导致无任何路由 → 访问 /friend/** 等一律 404。
+# 此处提供与 nacos_files/oj-gateway.yml 一致的手写路由作为本地默认；Nacos 成功加载同名配置时会覆盖本节（以你环境为准）。
+spring:
+  cloud:
+    gateway:
+      globalcors:
+        add-to-simple-url-handler-mapping: true
+        cors-configurations:
+          '[/**]':
+            allowedOriginPatterns: "*"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+              - PATCH
+            allowedHeaders: "*"
+            maxAge: 3600

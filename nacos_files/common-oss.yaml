@@ -1,0 +1,12 @@
+oss:
+  enabled: true
+  endpoint: ${OSS_ENDPOINT:oss-cn-chengdu.aliyuncs.com}
+  access-key-id: ${OSS_ACCESS_KEY_ID:}
+  access-key-secret: ${OSS_ACCESS_KEY_SECRET:}
+  bucket-name: oj-study-test-yhc
+  base-dir: oj
+  region: ${OSS_REGION:oss-cn-chengdu}
+  sts-role-arn: acs:ram::1835574184374192:role/oj-front-end
+  sts-role-session-name: ${OSS_STS_ROLE_SESSION_NAME:oj-friend-avatar}
+  sts-duration-seconds: ${OSS_STS_DURATION_SECONDS:900}
+  cdn-domain: ${OSS_CDN_DOMAIN:} # 可空，不空时用于返回加速域名

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OJ · 选择模式</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/portal.css" />
+  </head>
+  <body class="portal-body">
+    <div class="page-bg portal-bg" aria-hidden="true"></div>
+
+    <header class="portal-header">
+      <div class="portal-brand">
+        <div class="brand-mark portal-mark">OJ</div>
+        <div>
+          <h1 class="portal-title">在线评测</h1>
+          <p class="portal-tagline">选择进入方式</p>
+        </div>
+      </div>
+    </header>
+
+    <main class="portal-main">
+      <p class="portal-intro">
+        请选择 <strong>管理员模式</strong> 或 <strong>用户模式</strong>。用户模式已对接学员注册、登录与竞赛报名等接口。
+      </p>
+
+      <div class="mode-grid">
+        <a href="admin.html" class="mode-card mode-card-admin card-elevated">
+          <div class="mode-card-icon" aria-hidden="true">◆</div>
+          <h2 class="mode-card-title">管理员模式</h2>
+          <p class="mode-card-desc">
+            系统用户登录、用户增删查改、网关 <code>token</code> 鉴权。面向运维与后台管理。
+          </p>
+          <span class="mode-card-cta">进入管理后台 →</span>
+        </a>
+
+        <a href="user-dashboard.html" class="mode-card mode-card-user card-elevated">
+          <div class="mode-card-icon mode-card-icon-user" aria-hidden="true">◇</div>
+          <h2 class="mode-card-title">用户模式</h2>
+          <p class="mode-card-desc">
+            浏览竞赛与题目；登录后可报名、管理头像。点击进入全新学员中心。
+          </p>
+          <span class="mode-card-cta mode-cta-user">进入学员中心 →</span>
+        </a>
+      </div>
+    </main>
+
+    <footer class="portal-footer">
+      静态入口页 · 默认打开 <code>index.html</code>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,26 @@
+# Nacos Data ID: oj-friend.yaml
+spring:
+  mail:
+    host: smtp.qq.com
+    port: 587
+    username: 478946668@qq.com
+    password: tklngpcowssnbjef
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+security:
+  jwt:
+    secret: ${JWT_SECRET:oj-jwt-secret-key-please-change-2026}
+    expire-seconds: ${JWT_EXPIRE_SECONDS:604800}
+  token:
+    # Redis 登录两键 TTL（秒），与网关 / oj-system 一致，默认 12h
+    ttl-seconds: ${TOKEN_TTL_SECONDS:43200}
+
+# 如果有其他业务配置也可以放在这里
+# friend:
+#   max-friends: 200
+#   follow-timeout: 30000

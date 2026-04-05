@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OJ 管理端</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body class="admin-app">
+    <div class="page-bg" aria-hidden="true"></div>
+
+    <header class="app-header">
+      <div class="brand">
+        <a href="index.html" class="brand-link" title="返回模式选择">←</a>
+        <div class="brand-mark">OJ</div>
+        <div class="brand-text">
+          <h1>管理后台</h1>
+          <span class="brand-sub" id="header-subtitle">控制台</span>
+        </div>
+      </div>
+      <div class="header-right">
+        <a href="index.html" class="link-home">返回首页</a>
+        <div class="config-row">
+          <label for="apiBase">网关</label>
+          <input
+            type="text"
+            id="apiBase"
+            placeholder="http://localhost:9000"
+            autocomplete="off"
+          />
+        </div>
+        <div id="user-bar" class="user-bar hidden">
+          <span class="user-avatar" id="user-avatar">管</span>
+          <div class="user-meta">
+            <span id="user-bar-text" class="user-name"></span>
+            <span class="user-role">管理员</span>
+          </div>
+          <button type="button" class="btn btn-ghost btn-sm" id="btn-logout">退出</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="main main-admin">
+      <section id="view-login" class="panel panel-login card-elevated">
+        <div class="card-head">
+          <h2>欢迎回来</h2>
+          <p class="hint">登录后即可使用左侧菜单进入各管理模块</p>
+        </div>
+        <div class="form-group">
+          <label for="login-account">账号</label>
+          <input
+            type="text"
+            id="login-account"
+            placeholder="请输入账号"
+            autocomplete="username"
+          />
+        </div>
+        <div class="form-group">
+          <label for="login-password">密码</label>
+          <input
+            type="password"
+            id="login-password"
+            placeholder="请输入密码"
+            autocomplete="current-password"
+          />
+        </div>
+        <p class="status-line muted" id="login-status"></p>
+        <button type="button" class="btn btn-primary btn-block" id="btn-login">登录</button>
+      </section>
+
+      <div id="view-workspace" class="workspace hidden">
+        <div class="admin-shell">
+          <aside class="admin-sidebar card-elevated" aria-label="主导航">
+            <div class="sidebar-head">功能菜单</div>
+            <nav class="sidebar-nav">
+              <button
+                type="button"
+                class="nav-item"
+                data-panel="contest"
+                id="nav-contest"
+              >
+                <span class="nav-icon">🏁</span>
+                <span class="nav-text">
+                  <span class="nav-title">竞赛管理</span>
+                  <span class="nav-badge nav-badge-live">已接入</span>
+                </span>
+              </button>
+              <button
+                type="button"
+                class="nav-item"
+                data-panel="problem"
+                id="nav-problem"
+              >
+                <span class="nav-icon">📚</span>
+                <span class="nav-text">
+                  <span class="nav-title">题目管理</span>
+                  <span class="nav-badge nav-badge-live">已接入</span>
+                </span>
+              </button>
+              <button
+                type="button"
+                class="nav-item"
+                data-panel="ojuser"
+                id="nav-ojuser"
+              >
+                <span class="nav-icon">👥</span>
+                <span class="nav-text">
+                  <span class="nav-title">普通用户管理</span>
+                  <span class="nav-badge">原型</span>
+                </span>
+              </button>
+              <button
+                type="button"
+                class="nav-item active"
+                data-panel="sysuser"
+                id="nav-sysuser"
+              >
+                <span class="nav-icon">🛡️</span>
+                <span class="nav-text">
+                  <span class="nav-title">系统用户管理</span>
+                  <span class="nav-badge nav-badge-live">已接入</span>
+                </span>
+              </button>
+            </nav>
+          </aside>
+
+          <div class="admin-content">
+            <header class="content-topbar">
+              <h2 class="content-title" id="admin-content-title">系统用户管理</h2>
+              <p class="content-desc" id="admin-content-desc">
+                管理端账号 <code>tb_sys_user</code>，接口已联调
+              </p>
+            </header>
+
+            <!-- 竞赛管理（已实现） -->
+            <div id="panel-contest" class="admin-panel hidden" data-title="竞赛管理">
+              <div class="layout-dashboard">
+                <section class="panel card-elevated section-query">
+                  <div class="section-title">
+                    <span class="section-icon">🏁</span>
+                    <div>
+                      <h2>查询竞赛</h2>
+                      <p class="hint section-desc">
+                        GET <code>/exam/getExamById</code>、<code>/exam/getExamByName</code>
+                      </p>
+                    </div>
+                  </div>
+                  <div class="query-tabs" role="tablist">
+                    <button type="button" class="tab active" data-tab="exam-by-id" role="tab">按竞赛编号</button>
+                    <button type="button" class="tab" data-tab="exam-by-name" role="tab">按名称</button>
+                  </div>
+                  <div id="exam-query-pane-id" class="query-pane">
+                    <div class="inline-field">
+                      <input type="text" id="exam-query-id" inputmode="numeric" placeholder="请输入竞赛ID" />
+                      <button type="button" class="btn btn-primary" id="btn-exam-query-id">查询</button>
+                    </div>
+                  </div>
+                  <div id="exam-query-pane-name" class="query-pane hidden">
+                    <div class="inline-field">
+                      <input type="text" id="exam-query-name" placeholder="请输入竞赛名称（精确匹配）" />
+                      <button type="button" class="btn btn-primary" id="btn-exam-query-name">查询</button>
+                    </div>
+                  </div>
+                  <p class="status-line muted" id="exam-query-status"></p>
+                  <div id="exam-query-result" class="user-detail-card hidden"></div>
+                </section>
+
+                <section class="panel card-elevated section-create">
+                  <div class="section-title">
+                    <span class="section-icon">＋</span>
+                    <div>
+                      <h2>新增竞赛</h2>
+                      <p class="hint section-desc">POST <code>/exam/addExam</code></p>
+                    </div>
+                  </div>
+                  <div class="form-row form-row-2">
+                    <div class="form-group">
+                      <label for="exam-new-title">竞赛名称</label>
+                      <input type="text" id="exam-new-title" placeholder="例如：exam1" />
+                    </div>
+                    <div class="form-group">
+                      <label for="exam-new-status">状态</label>
+                      <select id="exam-new-status">
+                        <option value="0">未开始(0)</option>
+                        <option value="1">进行中(1)</option>
+                        <option value="2">已结束(2)</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="exam-new-start-time">开始时间</label>
+                      <input type="datetime-local" id="exam-new-start-time" />
+                    </div>
+                    <div class="form-group">
+                      <label for="exam-new-end-time">结束时间</label>
+                      <input type="datetime-local" id="exam-new-end-time" />
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="exam-new-question-ids">题目ID列表</label>
+                    <textarea
+                      id="exam-new-question-ids"
+                      rows="3"
+                      placeholder="请输入题目ID，使用逗号或换行分隔，例如：&#10;2035744716359733250,2036098040540028929"
+                    ></textarea>
+                  </div>
+                  <button type="button" class="btn btn-primary" id="btn-exam-insert">新增竞赛</button>
+                  <p class="status-line muted" id="exam-insert-status"></p>
+                </section>
+              </div>
+
+              <section class="panel card-elevated section-list">
+                <div class="list-toolbar">
+                  <div class="section-title list-title-wrap">
+                    <span class="section-icon">☰</span>
+                    <div>
+                      <h2>竞赛列表</h2>
+                      <p class="hint section-desc">GET <code>/exam/list</code> · DELETE <code>/exam/deleteExamById</code></p>
+                    </div>
+                  </div>
+                  <div class="pager">
+                    <button type="button" class="btn btn-secondary btn-sm" id="btn-exam-page-prev" disabled>上一页</button>
+                    <span class="page-indicator" id="exam-page-indicator">第 1 页</span>
+                    <button type="button" class="btn btn-secondary btn-sm" id="btn-exam-page-next">下一页</button>
+                    <button type="button" class="btn btn-secondary btn-sm" id="btn-refresh-exams">刷新</button>
+                  </div>
+                </div>
+                <div class="user-table-wrap table-shell" id="exam-table-wrap"></div>
+                <p class="status-line muted" id="exam-list-status"></p>
+              </section>
+
+              <section class="panel card-elevated section-list">
+                <div class="section-title list-title-wrap">
+                  <span class="section-icon">📚</span>
+                  <div>
+                    <h2>竞赛题目列表（点击上方竞赛行查看）</h2>
+                    <p class="hint section-desc">GET <code>/question/getQuestionFromExam</code></p>
+                  </div>
+                </div>
+                <p class="status-line muted" id="exam-question-status"></p>
+                <div id="exam-question-result" class="hidden"></div>
+              </section>
+              <section class="panel card-elevated section-list">
+                <div class="section-title list-title-wrap">
+                  <span class="section-icon">📄</span>
+                  <div>
+                    <h2>竞赛题目详情（点击上方题目行查看）</h2>
+                    <p class="hint section-desc">GET <code>/question/detail</code></p>
+                  </div>
+                </div>
+                <p class="status-line muted" id="exam-question-detail-status"></p>
+                <div id="exam-question-detail-result" class="user-detail-card hidden"></div>
+              </section>
+            </div>
+
+            <!-- 题目管理（已实现） -->
+            <div id="panel-problem" class="admin-panel hidden" data-title="题目管理">
+              <div class="layout-dashboard">
+                <section class="panel card-elevated section-query">
+                  <div class="section-title">
+                    <span class="section-icon">🧩</span>
+                    <div>
+                      <h2>查询题目</h2>
+                      <p class="hint section-desc">
+                        GET <code>/question/list-by-title-like</code>
+                      </p>
+                    </div>
+                  </div>
+                  <div class="query-pane">
+                    <div class="inline-field">
+                      <input type="text" id="question-query-title" placeholder="输入标题关键字（模糊查询）" />
+                      <button type="button" class="btn btn-primary" id="btn-question-like-by-title">按标题模糊查询</button>
+                    </div>
+                  </div>
+                  <p class="status-line muted" id="question-query-status"></p>
+                  <div id="question-query-result" class="hidden"></div>
+                </section>
+
+                <section class="panel card-elevated section-create">
+                  <div class="section-title">
+                    <span class="section-icon">＋</span>
+                    <div>
+                      <h2>新增题目</h2>
+                      <p class="hint section-desc">POST <code>/question/addQuestion</code></p>
+                    </div>
+                  </div>
+                  <div class="form-row form-row-2">
+                    <div class="form-group">
+                      <label for="question-new-title">标题</label>
+                      <input type="text" id="question-new-title" placeholder="如：两数之和" />
+                    </div>
+                    <div class="form-group">
+                      <label for="question-new-difficulty">难度</label>
+                      <select id="question-new-difficulty">
+                        <option value="0">easy(0)</option>
+                        <option value="1">medium(1)</option>
+                        <option value="2">hard(2)</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="question-new-time-limit">时间限制</label>
+                      <input type="number" id="question-new-time-limit" placeholder="可空，整数" />
+                    </div>
+                    <div class="form-group">
+                      <label for="question-new-space-limit">空间限制</label>
+                      <input type="number" id="question-new-space-limit" placeholder="可空，整数" />
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="question-new-content">题目内容</label>
+                    <textarea id="question-new-content" rows="3" placeholder="题目描述（<=1024）"></textarea>
+                  </div>
+                  <div class="form-group">
+                    <label for="question-new-case">测试用例</label>
+                    <textarea id="question-new-case" rows="3" placeholder="测试用例（<=1024）"></textarea>
+                  </div>
+                  <div class="form-row form-row-2">
+                    <div class="form-group">
+                      <label for="question-new-default-code">默认代码块</label>
+                      <textarea id="question-new-default-code" rows="3" placeholder="默认代码（<=256）"></textarea>
+                    </div>
+                    <div class="form-group">
+                      <label for="question-new-main-method">main 方法</label>
+                      <textarea id="question-new-main-method" rows="3" placeholder="main方法（<=256）"></textarea>
+                    </div>
+                  </div>
+                  <button type="button" class="btn btn-primary" id="btn-question-insert">新增题目</button>
+                  <p class="status-line muted" id="question-insert-status"></p>
+                </section>
+              </div>
+
+              <section class="panel card-elevated section-list">
+                <div class="list-toolbar">
+                  <div class="section-title list-title-wrap">
+                    <span class="section-icon">☰</span>
+                    <div>
+                      <h2>题目列表</h2>
+                      <p class="hint section-desc">GET <code>/question/page</code> · DELETE <code>/question/by-id</code></p>
+                    </div>
+                  </div>
+                  <div class="pager">
+                    <button type="button" class="btn btn-secondary btn-sm" id="btn-question-page-prev" disabled>上一页</button>
+                    <span class="page-indicator" id="question-page-indicator">第 1 页</span>
+                    <button type="button" class="btn btn-secondary btn-sm" id="btn-question-page-next">下一页</button>
+                    <button type="button" class="btn btn-secondary btn-sm" id="btn-refresh-questions">刷新</button>
+                  </div>
+                </div>
+                <div class="user-table-wrap table-shell" id="question-table-wrap"></div>
+                <p class="status-line muted" id="question-list-status"></p>
+              </section>
+              <section class="panel card-elevated section-list">
+                <div class="section-title list-title-wrap">
+                  <span class="section-icon">📄</span>
+                  <div>
+                    <h2>题目详情（点击上方列表行查看）</h2>
+                    <p class="hint section-desc">GET <code>/question/detail</code></p>
+                  </div>
+                </div>
+                <p class="status-line muted" id="question-detail-status"></p>
+                <div id="question-detail-result" class="user-detail-card hidden"></div>
+              </section>
+            </div>
+
+            <!-- 普通用户管理 / OJ 学员（原型） -->
+            <div id="panel-ojuser" class="admin-panel hidden" data-title="普通用户管理">
+              <div class="prototype-banner">
+                <span class="prototype-tag">前端原型</span>
+                <p>
+                  面向做题学员的账号体系（与左侧 <strong>SysUser 管理</strong> 区分）。注册、封禁、题解统计等接口待实现。
+                </p>
+              </div>
+              <div class="prototype-cards">
+                <div class="proto-stat-card card-elevated">
+                  <span class="proto-stat-label">注册用户</span>
+                  <span class="proto-stat-value">—</span>
+                </div>
+                <div class="proto-stat-card card-elevated">
+                  <span class="proto-stat-label">今日活跃</span>
+                  <span class="proto-stat-value">—</span>
+                </div>
+                <div class="proto-stat-card card-elevated">
+                  <span class="proto-stat-label">封禁用户</span>
+                  <span class="proto-stat-value">—</span>
+                </div>
+              </div>
+              <div class="prototype-toolbar">
+                <input type="text" class="proto-input" placeholder="用户 ID / 昵称…" disabled />
+                <button type="button" class="btn btn-secondary" disabled>导出</button>
+              </div>
+              <div class="panel card-elevated prototype-table-wrap">
+                <table class="data-table prototype-table">
+                  <thead>
+                    <tr>
+                      <th>用户 ID</th>
+                      <th>昵称</th>
+                      <th>注册时间</th>
+                      <th>状态</th>
+                      <th class="col-actions">操作</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="proto-placeholder-row">
+                      <td colspan="5">
+                        <div class="empty-state proto-empty">
+                          暂无数据 · 等待用户域接口（非 SysUser）
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- SysUser 管理（已实现） -->
+            <div id="panel-sysuser" class="admin-panel">
+              <div class="layout-dashboard">
+                <section class="panel card-elevated section-query">
+                  <div class="section-title">
+                    <span class="section-icon">🔍</span>
+                    <div>
+                      <h2>查询用户</h2>
+                      <p class="hint section-desc">GET <code>/findUserById</code>、<code>/findUserByUserAccount</code></p>
+                    </div>
+                  </div>
+                  <div class="query-tabs" role="tablist">
+                    <button type="button" class="tab active" data-tab="by-id" role="tab">按用户编号</button>
+                    <button type="button" class="tab" data-tab="by-account" role="tab">按账号</button>
+                  </div>
+                  <div id="query-pane-id" class="query-pane">
+                    <div class="inline-field">
+                      <input type="text" id="query-by-id" inputmode="numeric" placeholder="例如 1234567890" />
+                      <button type="button" class="btn btn-primary" id="btn-query-id">查询</button>
+                    </div>
+                  </div>
+                  <div id="query-pane-account" class="query-pane hidden">
+                    <div class="inline-field">
+                      <input type="text" id="query-by-account" placeholder="登录账号 user_account" />
+                      <button type="button" class="btn btn-primary" id="btn-query-account">查询</button>
+                    </div>
+                  </div>
+                  <p class="status-line muted" id="query-status"></p>
+                  <div id="query-result" class="user-detail-card hidden"></div>
+                </section>
+
+                <section class="panel card-elevated section-create">
+                  <div class="section-title">
+                    <span class="section-icon">＋</span>
+                    <div>
+                      <h2>新增用户</h2>
+                      <p class="hint section-desc">POST <code>/insertUser</code></p>
+                    </div>
+                  </div>
+                  <div class="form-row form-row-3">
+                    <div class="form-group">
+                      <label for="new-account">账号</label>
+                      <input type="text" id="new-account" placeholder="登录账号" />
+                    </div>
+                    <div class="form-group">
+                      <label for="new-password">初始密码</label>
+                      <input type="password" id="new-password" placeholder="初始密码" />
+                    </div>
+                    <div class="form-group">
+                      <label for="new-nickname">昵称</label>
+                      <input type="text" id="new-nickname" placeholder="显示名称" />
+                    </div>
+                  </div>
+                  <button type="button" class="btn btn-primary" id="btn-insert-user">添加用户</button>
+                  <p class="status-line muted" id="insert-status"></p>
+                </section>
+              </div>
+
+              <section class="panel card-elevated section-list">
+                <div class="list-toolbar">
+                  <div class="section-title list-title-wrap">
+                    <span class="section-icon">☰</span>
+                    <div>
+                      <h2>用户列表</h2>
+                      <p class="hint section-desc">GET <code>/sys-users</code> · DELETE <code>/deleteUserById</code></p>
+                    </div>
+                  </div>
+                  <div class="pager">
+                    <button type="button" class="btn btn-secondary btn-sm" id="btn-page-prev" disabled>上一页</button>
+                    <span class="page-indicator" id="page-indicator">第 1 页</span>
+                    <button type="button" class="btn btn-secondary btn-sm" id="btn-page-next">下一页</button>
+                    <button type="button" class="btn btn-secondary btn-sm" id="btn-refresh-users">刷新</button>
+                  </div>
+                </div>
+                <div class="user-table-wrap table-shell" id="user-table-wrap"></div>
+                <p class="status-line muted" id="list-status"></p>
+              </section>
+            </div>
+
+            <footer class="footer-note admin-inner-footer">
+              <span id="footer-sysuser-note">
+                接口与 <code>SysUserController</code> 一致；请求头携带 <code>token</code>（登录除外）。
+              </span>
+              <span id="footer-proto-note" class="hidden"></span>
+            </footer>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <div id="modal-overlay" class="modal-overlay hidden" aria-hidden="true">
+      <div class="modal-dialog card-elevated" role="dialog" aria-labelledby="modal-title" aria-modal="true">
+        <h3 id="modal-title" class="modal-title">登录已失效</h3>
+        <p id="modal-message" class="modal-message"></p>
+        <button type="button" class="btn btn-primary modal-ok" id="modal-ok">知道了</button>
+      </div>
+    </div>
+
+    <div id="confirm-overlay" class="modal-overlay hidden" aria-hidden="true">
+      <div class="modal-dialog card-elevated modal-confirm" role="dialog" aria-labelledby="confirm-title" aria-modal="true">
+        <h3 id="confirm-title" class="modal-title">确认删除</h3>
+        <p id="confirm-message" class="modal-message"></p>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-secondary" id="confirm-cancel">取消</button>
+          <button type="button" class="btn btn-danger-solid" id="confirm-ok">删除</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/app.js"></script>
+  </body>
+</html>
