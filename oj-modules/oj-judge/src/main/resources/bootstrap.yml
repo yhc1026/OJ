@@ -1,9 +1,33 @@
-server:
-  # 当前微服务监听端口
-  port: 9202
-
+# oj-judge bootstrap.yml
 spring:
   application:
-    # 应用名称：未来接入注册中心/配置中心时用作服务标识
     name: oj-judge
+  cloud:
+    nacos:
+      config:
+        server-addr: ${NACOS_SERVER:localhost:8848}
+        file-extension: yaml
+        shared-configs:
+          - data-id: common-datasource.yaml
+            group: DEFAULT_GROUP
+            refresh: true
+          - data-id: common-mybatis.yaml
+            group: DEFAULT_GROUP
+            refresh: true
+          - data-id: common-redis.yaml
+            group: DEFAULT_GROUP
+            refresh: true
+        extension-configs:
+          - data-id: oj-judge.yaml
+            group: DEFAULT_GROUP
+            refresh: true
+      discovery:
+        server-addr: ${NACOS_SERVER:localhost:8848}
 
+server:
+  port: ${SERVER_PORT:9202}
+
+# 可选：覆盖默认 JDK 镜像（需本地 docker pull）
+oj:
+  judge:
+    docker-image: ${JUDGE_DOCKER_IMAGE:eclipse-temurin:17-jdk-jammy}

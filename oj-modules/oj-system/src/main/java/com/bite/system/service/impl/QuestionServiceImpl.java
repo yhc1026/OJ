@@ -365,6 +365,7 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
         vo.setQuestionCase(q.getQuestionCase());
         vo.setDefaultCode(q.getDefaultCode());
         vo.setMainMethod(q.getMainMethod());
+        vo.setExpectedResult(q.getExpectedResult());
         vo.setCreateBy(q.getCreateBy());
         vo.setCreateTime(q.getCreateTime());
         vo.setUpdateBy(q.getUpdateBy());

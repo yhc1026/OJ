@@ -40,6 +40,13 @@ spring:
             refresh: true
       discovery:
         server-addr: ${NACOS_SERVER:localhost:8848}
+    # 判题单用例可能较慢：适当放大 Feign 读超时（毫秒）
+    openfeign:
+      client:
+        config:
+          oj-judge:
+            connectTimeout: 5000
+            readTimeout: 120000
 
 server:
   port: 9204

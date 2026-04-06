@@ -81,7 +81,13 @@
       html += '<pre class="q-codeblock q-codeblock--single"><code>' + escapeHtml(vo.mainMethod) + '</code></pre>';
       html += '</section>';
     }
-    if (!hasText(vo.content) && !hasText(vo.questionCase) && !hasText(vo.defaultCode) && !hasText(vo.mainMethod)) {
+    if (hasText(vo.expectedResult)) {
+      html += '<section class="q-section">';
+      html += '<h3 class="q-section-title">✅ 期望输出</h3>';
+      html += '<pre class="q-codeblock q-codeblock--single"><code>' + escapeHtml(vo.expectedResult) + '</code></pre>';
+      html += '</section>';
+    }
+    if (!hasText(vo.content) && !hasText(vo.questionCase) && !hasText(vo.defaultCode) && !hasText(vo.mainMethod) && !hasText(vo.expectedResult)) {
       html += '<p class="hint q-empty">该题目暂无正文描述，请联系管理员完善题库。</p>';
     }
     html += '</div>';

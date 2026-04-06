@@ -38,5 +38,8 @@ public class FriendQuestion {
 
     @TableField("main_method")
     private String mainMethod;
+
+    @TableField("expected_result")
+    private String expectedResult;
 }
 

@@ -410,6 +410,9 @@
         <div class="detail-row"><dt>Main \u65b9\u6cd5</dt><dd>${escapeHtml(
           q.mainMethod || "\u2014"
         )}</dd></div>
+        <div class="detail-row"><dt>\u671f\u671b\u8f93\u51fa</dt><dd>${escapeHtml(
+          q.expectedResult || "\u2014"
+        )}</dd></div>
       </dl>`;
   }
 
@@ -627,6 +630,7 @@
     const questionCase = $("question-new-case").value.trim();
     const defaultCode = $("question-new-default-code").value;
     const mainMethod = $("question-new-main-method").value;
+    const expectedResult = $("question-new-expected-result").value;
     const tRaw = $("question-new-time-limit").value.trim();
     const sRaw = $("question-new-space-limit").value.trim();
     return {
@@ -638,6 +642,7 @@
       questionCase,
       defaultCode,
       mainMethod,
+      expectedResult: expectedResult || null,
     };
   }
 
@@ -676,6 +681,7 @@
       $("question-new-case").value = "";
       $("question-new-default-code").value = "";
       $("question-new-main-method").value = "";
+      $("question-new-expected-result").value = "";
       $("question-new-time-limit").value = "";
       $("question-new-space-limit").value = "";
       questionPage.current = 1;
@@ -774,6 +780,10 @@
       <div class="question-detail-block">
         <h4>Main \u65b9\u6cd5</h4>
         <pre class="question-detail-pre">${escapeHtml(q.mainMethod || "\u2014")}</pre>
+      </div>
+      <div class="question-detail-block">
+        <h4>\u671f\u671b\u8f93\u51fa</h4>
+        <pre class="question-detail-pre">${escapeHtml(q.expectedResult || "\u2014")}</pre>
       </div>
     `;
     box.classList.remove("hidden");
@@ -1116,6 +1126,10 @@
       <div class="question-detail-block">
         <h4>Main \u65b9\u6cd5</h4>
         <pre class="question-detail-pre">${escapeHtml(q.mainMethod || "\u2014")}</pre>
+      </div>
+      <div class="question-detail-block">
+        <h4>\u671f\u671b\u8f93\u51fa</h4>
+        <pre class="question-detail-pre">${escapeHtml(q.expectedResult || "\u2014")}</pre>
       </div>
     `;
     box.classList.remove("hidden");

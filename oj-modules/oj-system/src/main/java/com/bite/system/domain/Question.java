@@ -21,6 +21,7 @@ import lombok.Data;
  *   question_case varchar(1024) NOT NULL COMMENT '测试用例',
  *   default_code varchar(256) NOT NULL COMMENT '默认代码块',
  *   main_method varchar(256) NOT NULL COMMENT 'main方法',
+ *   expected_result varchar(1024) COMMENT '期望输出',
  *   create_by bigint unsigned NOT NULL COMMENT '创建人',
  *   create_time datetime NOT NULL COMMENT '创建时间',
  *   update_by bigint unsigned COMMENT '更新人',
@@ -72,4 +73,8 @@ public class Question extends BaseEntity {
     /** main 方法（签名或模板等，最长 256 与表字段一致） */
     @TableField("main_method")
     private String mainMethod;
+
+    /** 期望输出 */
+    @TableField("expected_result")
+    private String expectedResult;
 }

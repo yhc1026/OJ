@@ -59,6 +59,13 @@
 
     <!-- 使用 Spring 自带 MD5 工具（spring-core 已由 starter-web 间接引入，这里不额外加依赖） -->
 
+    <!-- JUnit 测试 -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+
   </dependencies>
 
   <build>

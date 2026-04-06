@@ -26,6 +26,8 @@ public class QuestionDetailVo {
     private String questionCase;
     private String defaultCode;
     private String mainMethod;
+    /** 期望输出 */
+    private String expectedResult;
 
     private Long createBy;
     private LocalDateTime createTime;

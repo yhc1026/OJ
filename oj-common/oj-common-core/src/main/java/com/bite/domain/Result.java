@@ -1,29 +1,29 @@
 package com.bite.domain;
 
 import com.bite.common.core.enums.ResultCode;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * 通用接口返回体。
  * <p>
  * code/msg 默认来源于 {@link ResultCode}，也支持业务侧传入自定义 msg。
  */
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Result<T> {
     private String msg;
     private int code;
     private T data;
 
-    public Result() {
+    public Result(String compileError) {
     }
 
     public Result(String msg, int code) {
         this.msg = msg;
         this.code = code;
-    }
-
-    public Result(String msg, int code, T data) {
-        this.msg = msg;
-        this.code = code;
-        this.data = data;
     }
 
     public static <T> Result<T> ok(String msg) {

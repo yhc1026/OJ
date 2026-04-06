@@ -1,0 +1,14 @@
+# =============================================================================
+# Data ID: oj-judge.yaml
+# Group: DEFAULT_GROUP
+# 说明: oj-judge 判题服务专属配置
+# =============================================================================
+
+server:
+  port: ${SERVER_PORT:9202}
+
+# 判题服务配置
+oj:
+  judge:
+    # Docker 镜像，用于编译和运行用户代码
+    docker-image: ${JUDGE_DOCKER_IMAGE:eclipse-temurin:17-jdk-jammy}

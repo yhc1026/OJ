@@ -39,6 +39,9 @@ public class QuestionDoc {
     @Field(type = FieldType.Long)
     private Long spaceLimit;
 
+    @Field(type = FieldType.Text)
+    private String expectedResult;
+
     public String getId() {
         return id;
     }
@@ -89,6 +92,14 @@ public class QuestionDoc {
 
     public String getQuestionCase() {
         return questionCase;
+    }
+
+    public String getExpectedResult() {
+        return expectedResult;
+    }
+
+    public void setExpectedResult(String expectedResult) {
+        this.expectedResult = expectedResult;
     }
 
     public void setQuestionCase(String questionCase) {

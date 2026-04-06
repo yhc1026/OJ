@@ -165,6 +165,7 @@ public class FriendSearchServiceImpl implements FriendSearchService {
             q.setTitle(d.getTitle());
             q.setContent(d.getContent());
             q.setDifficulty(d.getDifficulty());
+            q.setExpectedResult(d.getExpectedResult());
             list.add(q);
         }
         return list;
@@ -228,6 +229,7 @@ public class FriendSearchServiceImpl implements FriendSearchService {
             doc.setQuestionCase(q.getQuestionCase());
             doc.setTimeLimit(q.getTimeLimit());
             doc.setSpaceLimit(q.getSpaceLimit());
+            doc.setExpectedResult(q.getExpectedResult());
             docs.add(doc);
         }
         if (docs.isEmpty()) {
