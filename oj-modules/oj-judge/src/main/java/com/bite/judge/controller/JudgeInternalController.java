@@ -24,10 +24,6 @@ public class JudgeInternalController {
 
     @PostMapping("/internal/run-case")
     public Result<JudgeSingleCaseResponse> runCase(@RequestBody JudgeRunRequest request) {
-        System.out.println("JudgeInternalController 收到请求");
-        Result<JudgeSingleCaseResponse> res = judgeRunService.run(request);
-        System.out.println("JudgeInternalController 返回: code=" + res.getCode() + ", verdict=" +
-                (res.getData() != null ? res.getData().getVerdict() : "null"));
-        return res;
+        return judgeRunService.run(request);
     }
 }

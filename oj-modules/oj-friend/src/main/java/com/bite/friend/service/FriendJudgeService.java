@@ -10,4 +10,8 @@ public interface FriendJudgeService {
     Result<CodeSubmitResultVo> submit(HttpServletRequest httpRequest,
                                       String xUserIdHeader,
                                       CodeSubmitRequest body);
+
+    Result<CodeSubmitResultVo> getSubmitResult(HttpServletRequest httpRequest,
+                                               String xUserIdHeader,
+                                               Long submitId);
 }

@@ -28,7 +28,8 @@
     <module>oj-common-file</module>
     <!-- 全局异常处理（ControllerAdvice + 统一返回 Result） -->
     <module>oj-common-security</module>
-      <module>oj-common-swagger</module>
+    <module>oj-common-swagger</module>
+    <module>oj-common-MQ</module>
   </modules>
 </project>
 

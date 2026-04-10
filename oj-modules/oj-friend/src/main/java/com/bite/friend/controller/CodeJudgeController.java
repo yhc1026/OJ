@@ -5,6 +5,8 @@ import com.bite.friend.domain.dto.CodeSubmitRequest;
 import com.bite.friend.domain.vo.CodeSubmitResultVo;
 import com.bite.friend.service.FriendJudgeService;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -30,5 +32,13 @@ public class CodeJudgeController {
             @RequestHeader(value = "X-User-Id", required = false) String xUserIdHeader,
             @RequestBody CodeSubmitRequest body) {
         return friendJudgeService.submit(request, xUserIdHeader, body);
+    }
+
+    @GetMapping("/result/{submitId}")
+    public Result<CodeSubmitResultVo> getResult(
+            HttpServletRequest request,
+            @RequestHeader(value = "X-User-Id", required = false) String xUserIdHeader,
+            @PathVariable("submitId") Long submitId) {
+        return friendJudgeService.getSubmitResult(request, xUserIdHeader, submitId);
     }
 }

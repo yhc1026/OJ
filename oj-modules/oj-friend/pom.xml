@@ -36,7 +36,7 @@
 
     <dependency>
       <groupId>com.bite</groupId>
-      <artifactId>oj-judge</artifactId>
+      <artifactId>oj-common-MQ</artifactId>
       <version>1.0-SNAPSHOT</version>
     </dependency>
 

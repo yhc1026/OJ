@@ -2,6 +2,16 @@
 spring:
   application:
     name: oj-judge
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USERNAME:admin}
+    password: ${RABBITMQ_PASSWORD:admin}
+    virtual-host: ${RABBITMQ_VHOST:/}
+    listener:
+      simple:
+        acknowledge-mode: manual
+        prefetch: 1
   cloud:
     nacos:
       config:
@@ -30,4 +40,4 @@ server:
 # 可选：覆盖默认 JDK 镜像（需本地 docker pull）
 oj:
   judge:
-    docker-image: ${JUDGE_DOCKER_IMAGE:eclipse-temurin:17-jdk-jammy}
+    docker-image: ${JUDGE_DOCKER_IMAGE:eclipse-temurin:17-jdk-alpine}

@@ -9,94 +9,127 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
 @Component
 public class RunAndOutput {
-    public boolean compile(Path javaFilePath, Path outputPath) throws Exception {
-        javaFilePath=javaFilePath.resolve("/Main.java");
-        // 生成命令行，挂载在docker
-        String command = String.format(
-                "docker run --rm -v \"%s:/workspace\" -w /workspace eclipse-temurin:17-jdk-alpine javac -d /workspace/classes /workspace/%s",
-                outputPath.toAbsolutePath().toString().replace("\\", "/"),
-                javaFilePath.getFileName().toString()
-        );
+    private final ManageDockerPool dockerPool;
+    private final ThreadLocal<String> borrowedContainer = new ThreadLocal<>();
 
-        // 编译
-        Process process = Runtime.getRuntime().exec(command);
-        StringBuilder errorOutput = new StringBuilder();
-        try (BufferedReader reader = new BufferedReader(
-                new InputStreamReader(process.getErrorStream()))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                errorOutput.append(line).append("\n");
+    public RunAndOutput(ManageDockerPool dockerPool) {
+        this.dockerPool = dockerPool;
+    }
+
+    public boolean compile(Path javaFilePath) throws Exception {
+        Path sourceFile = javaFilePath.resolve("Main.java").toAbsolutePath();
+        System.out.println("sourceFile: " + sourceFile.toString());
+        String containerName = borrowedContainer.get();
+        if (containerName == null) {
+            containerName = dockerPool.borrowContainer(3000);
+            if (containerName != null) {
+                borrowedContainer.set(containerName);
             }
         }
+        if (containerName == null) {
+            throw new IllegalStateException("当前无可用判题容器，请稍后重试");
+        }
 
-        int exitCode = process.waitFor();
+        try {
+            String copyCommand = String.format(
+                    "docker cp \"%s\" %s:/tmp/Main.java",
+                    sourceFile.toString().replace("\\", "/"),
+                    containerName
+            );
+            ExecResult copyResult = exec(copyCommand);
+            if (copyResult.exitCode != 0) {
+                System.err.println("复制源码到容器失败：\n" + copyResult.stderr);
+                return false;
+            }
 
-        if (exitCode == 0) {
-            System.out.println("编译成功！");
-            return true;
-        } else {
-            System.err.println("编译失败：\n" + errorOutput);
+            String compileCommand = String.format(
+                    "docker exec %s sh -c \"mkdir -p /tmp/classes && javac -d /tmp/classes /tmp/Main.java\"",
+                    containerName
+            );
+            ExecResult compileResult = exec(compileCommand);
+            if (compileResult.exitCode == 0) {
+                System.out.println("编译成功！");
+                return true;
+            }
+            System.err.println("编译失败：\n" + compileResult.stderr);
+            dockerPool.returnContainer(containerName);
+            borrowedContainer.remove();
+            return false;
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println(e.getMessage());
             return false;
         }
     }
 
     public boolean run(Path javaClassPath, Path outputPath, Path inputPath) throws IOException, InterruptedException {
-        //这个参数没被用到是因为java自动找class文件
-        javaClassPath=javaClassPath.resolve("/Main.class");
-        String command = String.format(
-                "docker run --rm -v \"%s:/workspace\" -w /workspace eclipse-temurin:17-jdk-alpine sh -c \"java -cp classes Main < /workspace/input.txt\"",
-                outputPath.toAbsolutePath().toString().replace("\\", "/")
-        );
-
-        Process process = Runtime.getRuntime().exec(command);
-
-        // 读取输出
-        StringBuilder output = new StringBuilder();
-        try (BufferedReader reader = new BufferedReader(
-                new InputStreamReader(process.getInputStream()))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                output.append(line).append("\n");
-            }
+        Path inputFile = inputPath.resolve("input.txt").toAbsolutePath();
+        String containerName = borrowedContainer.get();
+        if (containerName == null) {
+            throw new IllegalStateException("未找到已编译容器，请先执行compile");
         }
 
-        int exitCode = process.waitFor();
-
-        if (exitCode == 0) {
-            // ✅ 输出到文件
-            Path resultFile = outputPath.resolve("output.txt");
-            Files.writeString(resultFile, output.toString(), StandardCharsets.UTF_8);
-            System.out.println("运行成功！结果已保存到: " + resultFile);
-            return true;
-        } else {
-            // 读取错误
-            StringBuilder error = new StringBuilder();
-            try (BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(process.getErrorStream()))) {
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    error.append(line).append("\n");
-                }
+        try {
+            ExecResult copyInputResult = exec(String.format(
+                    "docker cp \"%s\" %s:/tmp/input.txt",
+                    inputFile.toString().replace("\\", "/"),
+                    containerName
+            ));
+            if (copyInputResult.exitCode != 0) {
+                System.err.println("复制输入文件到容器失败：\n" + copyInputResult.stderr);
+                return false;
             }
-            System.err.println("运行失败: " + error);
+
+            ExecResult runResult = exec(String.format(
+                    "docker exec %s sh -c \"java -cp /tmp/classes Main < /tmp/input.txt\"",
+                    containerName
+            ));
+            if (runResult.exitCode == 0) {
+                Path resultFile = outputPath.resolve("output.txt");
+                Files.writeString(resultFile, runResult.stdout, StandardCharsets.UTF_8);
+                System.out.println("运行成功！结果已保存到: " + resultFile);
+                return true;
+            }
+            System.err.println("运行失败: " + runResult.stderr);
             return false;
+        } finally {
+            dockerPool.returnContainer(containerName);
+            borrowedContainer.remove();
         }
     }
 
-    public static void main(String[] args) throws Exception {
-        Path javaFilePath = Paths.get("D:/Desktop/new");
-        Path outputPath = Paths.get("D:/Desktop/new");
-        Path javaClassPath = Paths.get("D:/Desktop/new");
-        Path inputPath = Paths.get("D:/Desktop/new");
-        RunAndOutput runAndOutput = new RunAndOutput();
-        boolean success1=runAndOutput.compile(javaFilePath, outputPath);
-        boolean success2=runAndOutput.run(javaClassPath, outputPath, inputPath);
-        System.out.println(success1);
-        System.out.println(success2);
+    private ExecResult exec(String command) throws IOException, InterruptedException {
+        Process process = Runtime.getRuntime().exec(command);
+        String stdout = readStream(process.getInputStream());
+        String stderr = readStream(process.getErrorStream());
+        int exitCode = process.waitFor();
+        return new ExecResult(exitCode, stdout, stderr);
+    }
+
+    private String readStream(java.io.InputStream inputStream) throws IOException {
+        StringBuilder output = new StringBuilder();
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                output.append(line).append('\n');
+            }
+        }
+        return output.toString();
+    }
+
+    private static class ExecResult {
+        private final int exitCode;
+        private final String stdout;
+        private final String stderr;
+
+        private ExecResult(int exitCode, String stdout, String stderr) {
+            this.exitCode = exitCode;
+            this.stdout = stdout;
+            this.stderr = stderr;
+        }
     }
 }
 

@@ -29,8 +29,6 @@ public class JudgeRunServiceImpl implements JudgeRunService {
 
     @Override
     public Result<JudgeSingleCaseResponse> run(JudgeRunRequest request) {
-        System.out.println("JudgeRunService 收到请求: " + request);
-
         if (request == null) {
             return Result.fail("请求体不能为空");
         }
@@ -43,9 +41,6 @@ public class JudgeRunServiceImpl implements JudgeRunService {
         if (!StringUtils.hasText(request.getMainMethod())) {
             return Result.fail("mainMethod 不能为空");
         }
-
-        long tl = request.getTimeLimitMs() <= 0 ? 5000L : request.getTimeLimitMs();
-        long kb = request.getSpaceLimitKb() <= 0 ? 262144L : request.getSpaceLimitKb();
 
         Path workDir = null;
         try {
@@ -72,7 +67,7 @@ public class JudgeRunServiceImpl implements JudgeRunService {
 
             // 4. 编译
             System.out.println("=== 步骤4: 编译 ===");
-            boolean compileRes = runAndOutput.compile(workDir, workDir);
+            boolean compileRes = runAndOutput.compile(workDir);
             if (!compileRes) {
                 resp.setVerdict(JudgeVerdict.COMPILE_ERROR.getCode());
                 resp.setMessage("编译失败");
