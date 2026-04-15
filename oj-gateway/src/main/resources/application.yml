@@ -19,3 +19,13 @@ spring:
               - PATCH
             allowedHeaders: "*"
             maxAge: 3600
+
+# 指标：供 Prometheus 抓取（网关未匹配业务前缀时不过 LoginTokenFilter）
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+  metrics:
+    tags:
+      application: ${spring.application.name}

@@ -1,0 +1,9 @@
+# 指标：供 Prometheus 拉取（与 Nacos 中配置合并）
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+  metrics:
+    tags:
+      application: ${spring.application.name}

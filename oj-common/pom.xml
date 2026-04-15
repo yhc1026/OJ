@@ -30,6 +30,8 @@
     <module>oj-common-security</module>
     <module>oj-common-swagger</module>
     <module>oj-common-MQ</module>
+    <!-- 监控埋点 AOP（Micrometer，依赖方需已引入 actuator） -->
+    <module>oj-common-AOP</module>
   </modules>
 </project>
 

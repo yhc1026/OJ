@@ -1,0 +1,53 @@
+# 抓取本机运行的微服务（Docker 内通过 host.docker.internal 访问宿主机）
+# 若端口与本地不一致，请改 targets 或改用环境变量替换（见 README）
+# docker启动会把目录挂载，然后docker的Prometheus读取这个目录下的配置文件
+
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: prometheus
+    static_configs:
+      - targets:
+          - localhost:9090
+
+  - job_name: oj-gateway
+    metrics_path: /actuator/prometheus
+    static_configs:
+      - targets:
+          - host.docker.internal:9000
+        labels:
+          service: oj-gateway
+
+  - job_name: oj-system
+    metrics_path: /actuator/prometheus
+    static_configs:
+      - targets:
+          - host.docker.internal:9201
+        labels:
+          service: oj-system
+
+  - job_name: oj-judge
+    metrics_path: /actuator/prometheus
+    static_configs:
+      - targets:
+          - host.docker.internal:9202
+        labels:
+          service: oj-judge
+
+  - job_name: oj-job
+    metrics_path: /actuator/prometheus
+    static_configs:
+      - targets:
+          - host.docker.internal:9203
+        labels:
+          service: oj-job
+
+  - job_name: oj-friend
+    metrics_path: /actuator/prometheus
+    static_configs:
+      - targets:
+          - host.docker.internal:9204
+        labels:
+          service: oj-friend

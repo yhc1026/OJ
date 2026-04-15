@@ -72,6 +72,15 @@
       <artifactId>jsqlparser</artifactId>
       <version>4.4</version>
     </dependency>
+    <!-- Prometheus 抓取：/actuator/prometheus -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-actuator</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.micrometer</groupId>
+      <artifactId>micrometer-registry-prometheus</artifactId>
+    </dependency>
   </dependencies>
 </project>
 
